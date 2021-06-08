@@ -38,7 +38,9 @@
   color: red;
 }
 .currentDate {
-  color: blue;
+  color: white;
+  background: blue;
+  border-radius: 3px;
   box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.6);
   -webkit-box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.2);
   -moz-box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.2);

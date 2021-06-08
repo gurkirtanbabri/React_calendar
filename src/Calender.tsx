@@ -1,12 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./styles.css";
 interface Calenderprops {
-  date: number;
+  timeStamp: number;
 }
 
-const Calender = ({ date }: Calenderprops) => {
+const Calender = ({ timeStamp }: Calenderprops) => {
   const [currentDate, setCurrentDate] = useState(new Date());
-  const [count, Setcount] = useState(0);
   const weekDayArray = ["Sun", "Mon", "Tue", "Wed", "The", "Fri", "Sat"];
   const months = [
     "January",
@@ -22,6 +21,12 @@ const Calender = ({ date }: Calenderprops) => {
     "November",
     "December"
   ];
+
+  useEffect(() => {
+    if (timeStamp) {
+      setCurrentDate(new Date(timeStamp));
+    }
+  }, [timeStamp]);
   const getDates = (inputDate: Date) => {
     let date = new Date(inputDate);
     let year = date.getFullYear();
@@ -44,7 +49,8 @@ const Calender = ({ date }: Calenderprops) => {
     let weekEnd = dateDay === "Sat" || dateDay === "Sun" ? "Weekend" : "";
     const today =
       date.getDate() === new Date().getDate() &&
-      date.getMonth() === new Date().getMonth()
+      date.getMonth() === new Date().getMonth() &&
+      date.getFullYear() === new Date().getFullYear()
         ? "currentDate"
         : "";
     return (
@@ -52,6 +58,16 @@ const Calender = ({ date }: Calenderprops) => {
         {Datetext}
       </div>
     );
+  };
+  const ChangeMonth = (type: string) => {
+    let newDate = new Date(currentDate);
+    if (type === "DEC") {
+      newDate.setMonth(newDate.getMonth() - 1);
+      setCurrentDate(newDate);
+    } else {
+      newDate.setMonth(newDate.getMonth() + 1);
+      setCurrentDate(newDate);
+    }
   };
   return (
     <div className="MainContainer">
@@ -61,10 +77,7 @@ const Calender = ({ date }: Calenderprops) => {
           onClick={(e) => {
             e.preventDefault();
             e.stopPropagation();
-            let newDate = currentDate;
-            newDate.setMonth(newDate.getMonth() - 1);
-            setCurrentDate(newDate);
-            Setcount(count + 1);
+            ChangeMonth("DEC");
           }}
         />
         <div className="fullDate">{`${currentDate.getDate()} - ${
@@ -75,10 +88,7 @@ const Calender = ({ date }: Calenderprops) => {
           onClick={(e) => {
             e.preventDefault();
             e.stopPropagation();
-            let newDate = currentDate;
-            newDate.setMonth(newDate.getMonth() + 1);
-            setCurrentDate(newDate);
-            Setcount(count + 1);
+            ChangeMonth("INC");
           }}
         />
       </div>
